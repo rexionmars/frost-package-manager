@@ -3,7 +3,7 @@
 ###################################
 # Author: Leonardi Melo           #
 # Email: leonardimelo43@gmail.com #
-# Github: len4rdi                 #
+# Github: rexionmars              #
 # #################################
 
 # COLORS
