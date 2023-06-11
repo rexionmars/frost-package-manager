@@ -1,19 +1,21 @@
-## Frost Package Manager 📦
+<h1 align="center">Frost Package Manager</h1>
 
-⚠️Attention this project is still under constant development, this entire guide may be changed.
 
-<img src="images/frost.jpg" alt="Main banner" >
-FrostPKG is a fast and portable package manager for linux
+
+<img src="thumbnail/frost.jpg" alt="Main banner" >
+FrostPKG is a fast and portable package manager for linux.
+Attention this project is still under constant development, this entire guide may be changed.
 
 ## Overview
 - [x] Native
 - [x] Fast
 - [x] Portable
+### Platform suport (in current version)
 - [x] Linux
 - [ ] Windows
 - [ ] MacOS
 
-Prerequisites for FrostPKG
+## Prerequisites for FrostPKG
 - [x] Tar >= 1.34
 - [x] Bash >= 4.4.18
 
