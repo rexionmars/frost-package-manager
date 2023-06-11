@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-###################################
-# Author: Leonardi Melo           #
-# Email: leonardimelo43@gmail.com #
-# Github: rexionmars              #
-# #################################
+########################################
+# Author: Leonardi Melo                #
+# Email: opensource.leonardi@gmail.com #
+# Github: rexionmars                   #
+########################################
 
 # COLORS
 RED=$'\e[0;31m'
@@ -15,23 +15,23 @@ MAG=$'\e[0;35m'
 CYN=$'\e[0;36m'
 END=$'\e[0m'
 
-export pkg_ext="fpm"
-export version="0.1.0"
+export pkg_ext="ice"
+export version="0.2.0"
 
 export LC_ALL=C
 export LANG=C
 
-# Check program info
+### Check package information
 CHECK_PKG() {
   pkg_name="$@"
 
-  # Check package extension
+  # Check package extension name
   if ! echo "$pkg_name" | grep "\b${pkg_ext}\b$"; then
     printf '%s\n' "${RED}The package format must be .${pkg_ext}${END}"
     return 1
   fi
 
-  # Check white spaces
+  # Check if contains white spaces
   if echo "$pkg_name" | grep -qE "[[:space:]]+"; then
     printf '%s\n' "${RED}Do not use spaces in the name.${END}"
     printf '%s\n' "${YLW}Exiting...${END}"
@@ -41,6 +41,7 @@ CHECK_PKG() {
   printf '%s\n' "${YLW}Using pkg_name: ${pkg_name}${END}"
   check_name=$(echo "${pkg_name}" | grep -o "-" | wc -l)
 
+  # Check if package name is valid
   if [ "$check_name" -lt '2' ] || [ "$check_name" -gt '2' ]; then
     printf '%s\n' "${RED}Error: package name is invalid.${END}"
     printf '%s\n' "${YLW}Example: package_name-build_version.${pkg_ext}${END}"
@@ -49,7 +50,7 @@ CHECK_PKG() {
   return 0
 }
 
-# CREATE PACKAGE 
+### CREATE PACKAGE 
 CREATE_PKG() {
   pkg_name="$1"
 
@@ -71,48 +72,50 @@ CREATE_PKG() {
   fi
 }
 
-# USAGE MODE
+### USAGE MODE
 USAGE() {
   cat << EOF
-    ${RED}FROST PACKAGE MANAGER${END} >> create - options
+    ${RED}FROST PACKAGE MANAGER${END}
 
     ${YLW}--create, -c${END}
-      -> Create a package with .frost. It needs to be in the main directory of the package.
-      -> The package will be created a directory above.
+        Create a package with .frost. It needs to be in the main directory of the package.
+        The package will be created a directory above.
 
     ${YLW}--help, -h${END}
-      -> Instructions for use.
+        Instructions for use.
   
     ${YLW}--verbose, -v${END}
+        Verbose mode.
 
-    Author: len4rdi
-    Email: leonardimelo43@gmail.com
+    Author: Leonardi Melo 
+    Email: opensource.leonardi@gmail.com 
 EOF
 }
 
-# Goto to help
+### Goto to help
 if [ -z "$1" ]; then
   USAGE
 fi
 
+### Parser
 while [ -n "$1" ]; do
   case "$1" in
-    --created|-c)
+    --create|-c)
       CMD=$1
       shift
     ;;
 
-    --verbose|-V)
+    --verbose|-b)
       VERBOSE=1
       shift
     ;;
 
-    *.frost)
+    *.ice)
       PKG=$1
       shift
     ;;
 
-    --help|-v)
+    --help|-h)
       USAGE
       exit 1
     ;;
@@ -128,7 +131,7 @@ while [ -n "$1" ]; do
   esac
 done
 
-# START
+### START
 case "$CMD" in
     --create|-c)
     if [ -z "$CMD" ]; then
