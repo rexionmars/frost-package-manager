@@ -15,9 +15,15 @@ MAG=$'\e[0;35m'
 CYN=$'\e[0;36m'
 END=$'\e[0m'
 
-export pkg_ext="ice"
-export version="0.2.0"
+# Custom log messages
+ERROR="${RED}[ERROR]${END}"
+INFO="${GRN}[INFO]${END}"
+WARNING="${YLW}[WARNING]${END}"
 
+export pkg_extension=".ice"
+export version="0.1.7"
+
+# Remove unicode support for more performance
 export LC_ALL=C
 export LANG=C
 
@@ -26,25 +32,25 @@ CHECK_PKG() {
   pkg_name="$@"
 
   # Check package extension name
-  if ! echo "$pkg_name" | grep "\b${pkg_ext}\b$"; then
-    printf '%s\n' "${RED}The package format must be .${pkg_ext}${END}"
+  if ! echo "$pkg_name" | grep "\b${pkg_extension}\b$"; then
+    printf '%s\n' "${ERROR} The package format must be ${pkg_extension}"
     return 1
   fi
 
   # Check if contains white spaces
   if echo "$pkg_name" | grep -qE "[[:space:]]+"; then
-    printf '%s\n' "${RED}Do not use spaces in the name.${END}"
+    printf '%s\n' "${ERROR} Do not use spaces in the name."
     printf '%s\n' "${YLW}Exiting...${END}"
     return 1
   fi
 
-  printf '%s\n' "${YLW}Using pkg_name: ${pkg_name}${END}"
+  printf '%s\n' "${INFO} Using package name: ${pkg_name}"
   check_name=$(echo "${pkg_name}" | grep -o "-" | wc -l)
 
   # Check if package name is valid
   if [ "$check_name" -lt '2' ] || [ "$check_name" -gt '2' ]; then
-    printf '%s\n' "${RED}Error: package name is invalid.${END}"
-    printf '%s\n' "${YLW}Example: package_name-build_version.${pkg_ext}${END}"
+    printf '%s\n' "${ERROR} The package name is invalid"
+    printf '%s\n' "${WARNING} Example: package_name-x.x.x-x${pkg_extension}"
     return 1
   fi
   return 0
@@ -56,17 +62,17 @@ CREATE_PKG() {
 
   if [ "$VERBOSE" = 1 ]; then
     if tar -cvf../${pkg_name} .; then
-      printf '%b' "${GRN}The package has been created on ../${pkg_name}\n${END}"
+      printf '%b' "${INFO} The package has been created on ../${pkg_name}\n"
     else
-      printf "The package was not created\n"
+      printf "${ERROR} The package was not created\n"
       exit 1
     fi
   else
     if tar -cf ../${pkg_name} .; then
-      printf '%b' "${GRN}The package has been created on ../${pkg_name}\n${END}"
+      printf '%b' "${INFO} The package has been created on ../${pkg_name}\n"
       return 0
     else
-      printf "The package was not created\n"
+      printf "${ERROR} The package was not created\n"
       exit 1
     fi
   fi
@@ -75,7 +81,7 @@ CREATE_PKG() {
 ### USAGE MODE
 USAGE() {
   cat << EOF
-    ${RED}FROST PACKAGE MANAGER${END}
+    ${BLU}FROST PACKAGE MANAGER${END} ${RED}v${version}${END}
 
     ${YLW}--create, -c${END}
         Create a package with .frost. It needs to be in the main directory of the package.
@@ -92,7 +98,7 @@ USAGE() {
 EOF
 }
 
-### Goto to help
+### If the package manager is run without parameters, it returns the help menu.
 if [ -z "$1" ]; then
   USAGE
 fi
@@ -105,7 +111,7 @@ while [ -n "$1" ]; do
       shift
     ;;
 
-    --verbose|-b)
+    --verbose|-v)
       VERBOSE=1
       shift
     ;;
@@ -116,12 +122,8 @@ while [ -n "$1" ]; do
     ;;
 
     --help|-h)
-      USAGE
+      USAGE # Call usage mode
       exit 1
-    ;;
-
-    --version|-v)
-      echo $version
     ;;
 
     *)
@@ -135,7 +137,7 @@ done
 case "$CMD" in
     --create|-c)
     if [ -z "$CMD" ]; then
-      printf '%b' "${red}The package name is required.${end}\n"
+      printf '%b' "${ERROR} The package name is required.\n"
       exit 1
     fi
     CHECK_PKG "$PKG" || exit 1
