@@ -19,6 +19,7 @@ END=$'\e[0m'
 ERROR="${RED}[ERROR]${END}"
 INFO="${GRN}[INFO]${END}"
 WARNING="${YLW}[WARNING]${END}"
+NOTICE="${MAG}[NOTICE]${END}"
 
 export pkg_extension=".ice"
 export version="0.1.7"
@@ -50,7 +51,7 @@ CHECK_PKG() {
   # Check if package name is valid
   if [ "$check_name" -lt '2' ] || [ "$check_name" -gt '2' ]; then
     printf '%s\n' "${ERROR} The package name is invalid"
-    printf '%s\n' "${WARNING} Example: package_name-x.x.x-x${pkg_extension}"
+    printf '%s\n' "${NOTICE} Example: package_name-x.x.x-x${pkg_extension}"
     return 1
   fi
   return 0
