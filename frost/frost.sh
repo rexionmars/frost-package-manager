@@ -94,7 +94,7 @@ USAGE() {
     ${YLW}--verbose, -v${END}
         Verbose mode.
 
-    Author: Leonardi Melo 
+    Author: João Leonardi Melo
     Email: opensource.leonardi@gmail.com 
 EOF
 }
