@@ -12,6 +12,7 @@ Attention this project is still under constant development, this entire guide ma
 - [x] Portable
 ### Platform suport (in current version)
 - [x] Linux
+- [x] BSD
 - [ ] Windows
 - [ ] MacOS
 
